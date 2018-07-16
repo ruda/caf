@@ -10,16 +10,15 @@
 # software for any purpose.  It is provided "as is" without express or
 # implied warranty.
 
-
-class Error(Exception):
-    pass
-
+"""Encode or decode chunks of Core Audio Format (CAF) files.
+"""
 
 from .chunk import Reader, Writer
 from .codec import Decoder, Encoder
 
 
 def open(f, mode=None):
+    """Open file to encode or decode CAF."""
     if mode is None:
         if hasattr(f, 'mode'):
             mode = f.mode
@@ -30,4 +29,4 @@ def open(f, mode=None):
     elif mode in ('w', 'wb'):
         return Encoder(f)
     else:
-        raise Error, "mode must be 'r', 'rb', 'w', or 'wb'"
+        raise IOError("mode must be 'r', 'rb', 'w', or 'wb'")

@@ -19,8 +19,7 @@ import collections
 import struct
 
 from uuid import UUID
-
-from . import Error, Reader, Writer
+from . import Reader, Writer
 
 
 CAFdesc    = collections.namedtuple('CAFdesc', 'sample_rate format_id format_flags bytes_per_packet frames_per_packet channels_per_frame bits_per_channel')
@@ -39,7 +38,6 @@ CAFStrings      = collections.namedtuple('CAFStrings', 'num_entries strings_ids 
 CAFStringId     = collections.namedtuple('CAFStringID', 'string_id string_start_byte_offset')
 
 
-
 class ChunkDecoder(object):
     """Decode chunk and data."""
 
@@ -51,7 +49,7 @@ class ChunkDecoder(object):
         try:
             decode_chunk_fn = getattr(self, '_decode_chunk_' + self.chunk.chunk_type)
         except AttributeError:
-            raise Error, "unimplemented decoder for chunk type '%s'" % self.chunk.chunk_type
+            raise RuntimeError, "unimplemented decoder for chunk type '%s'" % self.chunk.chunk_type
         return decode_chunk_fn()
 
 
@@ -130,8 +128,8 @@ if __name__ == '__main__':
     else:
         fp = open(sys.argv[1], 'rb')
     try:
-        caf = open(fp)
-    except Error as err:
+        caf = Decoder(fp)
+    except Exception as err:
         print err
     else:
         for part in caf:

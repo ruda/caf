@@ -16,8 +16,6 @@
 import collections
 import struct
 
-from . import Error
-
 
 CAFFileHeader  = collections.namedtuple('CAFFileHeader', 'file_type file_version file_flags')
 CAFChunkHeader = collections.namedtuple('CAFChunkHeader', 'chunk_type chunk_size')
@@ -37,7 +35,7 @@ class Reader(object):
         self.file = f
         self.file_header = CAFFileHeader._make(struct.unpack(_FileHeaderMask, self.file.read(_FileHeaderSize)))
         if self.file_header.file_type != 'caff':
-             raise Error, 'file is not a valid CAF'
+             raise IOError('file is not a valid CAF')
 
     def __iter__(self):
         while True:
@@ -76,7 +74,7 @@ if __name__ == '__main__':
         fp = open(sys.argv[1], 'rb')
     try:
         caf = Reader(fp)
-    except Error as err:
+    except Exception as err:
         print err
     else:
         for chunk, data in caf:
