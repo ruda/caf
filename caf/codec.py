@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Copyright © 2018 Rudá Moura <ruda.moura@gmail.com>
+# Copyright © 2018, 2022 Rudá Moura <ruda.moura@gmail.com>
 #
 # Permission to use, copy, modify, distribute, and sell this software and its
 # documentation for any purpose is hereby granted without fee, provided that
@@ -47,9 +47,9 @@ class ChunkDecoder(object):
 
     def decode(self):
         try:
-            decode_chunk_fn = getattr(self, '_decode_chunk_' + self.chunk.chunk_type)
+            decode_chunk_fn = getattr(self, '_decode_chunk_' + self.chunk.chunk_type.decode())
         except AttributeError:
-            raise RuntimeError, "unimplemented decoder for chunk type '%s'" % self.chunk.chunk_type
+            raise RuntimeError("unimplemented decoder for chunk type '%s'" % self.chunk.chunk_type)
         return decode_chunk_fn()
 
 
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     try:
         caf = Decoder(fp)
     except Exception as err:
-        print err
+        print(err)
     else:
         for part in caf:
-            print part
+            print(part)

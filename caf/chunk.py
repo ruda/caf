@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# Copyright © 2018 Rudá Moura <ruda.moura@gmail.com>
+# Copyright © 2018, 2022 Rudá Moura <ruda.moura@gmail.com>
 #
 # Permission to use, copy, modify, distribute, and sell this software and its
 # documentation for any purpose is hereby granted without fee, provided that
@@ -34,7 +34,7 @@ class Reader(object):
             f = open(f, 'rb')
         self.file = f
         self.file_header = CAFFileHeader._make(struct.unpack(_FileHeaderMask, self.file.read(_FileHeaderSize)))
-        if self.file_header.file_type != 'caff':
+        if self.file_header.file_type != b'caff':
              raise IOError('file is not a valid CAF')
 
     def __iter__(self):
@@ -75,8 +75,8 @@ if __name__ == '__main__':
     try:
         caf = Reader(fp)
     except Exception as err:
-        print err
+        print(err)
     else:
         for chunk, data in caf:
             data = data[:32].encode('hex')
-            print chunk, data
+            print(chunk, data)

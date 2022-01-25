@@ -1,4 +1,4 @@
-Copyright © 2018 Rudá Moura <ruda.moura@gmail.com>
+Copyright © 2018, 2022 Rudá Moura <ruda.moura@gmail.com>
 
 Permission to use, copy, modify, distribute, and sell this software and its
 documentation for any purpose is hereby granted without fee, provided that
